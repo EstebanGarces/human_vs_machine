@@ -1,0 +1,71 @@
+{
+  "wikitext": {
+    "num_samples": 1314,
+    "metrics_summary": {
+      "human_reference": {
+        "avg_diversity": 0.9299029067053296,
+        "std_diversity": 0.06044616024945113,
+        "avg_coherence": -2.819709023021309,
+        "std_coherence": 0.39207615285159847
+      },
+      "gpt-3.5-turbo": {
+        "avg_diversity": 0.951143895097243,
+        "std_diversity": 0.03724615037879023,
+        "avg_coherence": -1.8091946257848173,
+        "std_coherence": 0.19675828390898992
+      },
+      "claude-3-haiku-20240307": {
+        "avg_diversity": 0.9359426108023452,
+        "std_diversity": 0.040530667221247346,
+        "avg_coherence": -1.7444768064546838,
+        "std_coherence": 0.22560848015730545
+      }
+    }
+  },
+  "wikinews": {
+    "num_samples": 2000,
+    "metrics_summary": {
+      "human_reference": {
+        "avg_diversity": 0.932870102392086,
+        "std_diversity": 0.04448070067434463,
+        "avg_coherence": -2.39528369140625,
+        "std_coherence": 0.26237337933158394
+      },
+      "gpt-3.5-turbo": {
+        "avg_diversity": 0.9599424523203449,
+        "std_diversity": 0.031420829475431955,
+        "avg_coherence": -1.6933935546875,
+        "std_coherence": 0.18731840056021837
+      },
+      "claude-3-haiku-20240307": {
+        "avg_diversity": 0.9464117776995146,
+        "std_diversity": 0.03463987931772798,
+        "avg_coherence": -1.60816455078125,
+        "std_coherence": 0.17976592404748082
+      }
+    }
+  },
+  "bookcorpus": {
+    "num_samples": 1947,
+    "metrics_summary": {
+      "human_reference": {
+        "avg_diversity": 0.9446741584851961,
+        "std_diversity": 0.052842550407954124,
+        "avg_coherence": -2.9307994871918335,
+        "std_coherence": 0.3205307127789643
+      },
+      "gpt-3.5-turbo": {
+        "avg_diversity": 0.9535300841078498,
+        "std_diversity": 0.03977071569164159,
+        "avg_coherence": -1.8715180807010785,
+        "std_coherence": 0.17605081765009786
+      },
+      "claude-3-haiku-20240307": {
+        "avg_diversity": 0.9438569097418087,
+        "std_diversity": 0.04339657673876046,
+        "avg_coherence": -1.8757116466284167,
+        "std_coherence": 0.19754015753855397
+      }
+    }
+  }
+}
