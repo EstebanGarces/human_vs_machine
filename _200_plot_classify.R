@@ -41,7 +41,10 @@ res$h2 <- as.numeric(res$h2)
 
 res$dataset <- unname(DATASET_NAME_MAP[res$dataset])
 res$method_name <- unname(METHOD_NAME_MAP[res$method_name])
-res$model <- factor(res$model, levels =  c("GPT2-XL", "Qwen 2", "Mistral 3", "Deepseek", "LLama 3", "Falcon 2"))
+res$model <- factor(
+  res$model,
+  levels =  c("GPT2-XL", "Qwen 2", "Mistral 3", "Deepseek", "LLama 3", "Falcon 2")
+)
 
 nocs <- res[(res$method_name != "CS"),]
 for (i in seq_along(unique(nocs$dataset))) {
@@ -94,18 +97,64 @@ for (i in seq_along(unique(nocs$dataset))) {
   
 }
 
-#cs_res <- res[(res$dataset == "book")&(res$method_name == "CS"),]
-#cs_res$h1 <- as.factor(cs_res$h1)
-#cs_res$h2 <- as.factor(cs_res$h2)
-
-#ggplot(
-#  data = cs_res,
-#  mapping = aes(x = h1, y = h2, fill = AUC_ROC)
-#) +
-#  geom_tile() +
-#  geom_text(aes(label = round(AUC_ROC, 2)), color = "black", size = 3) +
-#  scale_fill_distiller(palette = "RdPu") +
-#  facet_grid(model ~ classifier, scales = "free") +
-#  ggtitle("Book dataset")
+for (i in seq_along(unique(nocs$dataset))) {
+  ds_name <- unique(nocs$dataset)[i]
+  cs_res <- res[(res$dataset == ds_name)&(res$method_name == "CS"),]
+  
+  cs_res$h1 <- as.factor(cs_res$h1)
+  cs_res$h2 <- as.factor(cs_res$h2)
+  
+  cs_res$AUC_ROC_label <- ifelse(
+    round(cs_res$AUC_ROC, 2) < 1.0,
+    cs_res$AUC_ROC,
+    NA
+  )
+  
+  p <- ggplot(
+    data = cs_res,
+    mapping = aes(x = h1, y = h2, fill = AUC_ROC)
+  ) +
+    geom_tile() +
+    geom_text(aes(label = round(AUC_ROC_label, 2)), color = "black", size = 2) +
+    scale_fill_distiller(palette = "RdPu") +
+    facet_grid(classifier ~ model, scales = "free") +
+    ggtitle(ds_name) +
+    ylab("k") +
+    labs(fill = "AUC-ROC") +
+    theme_bw()
+  
+  if (i == 1){
+    p <- p +
+      theme(legend.position = "none", text = element_text(size = FONT_SIZE * 0.85)) +
+      xlab("")
+  }  else if (i != length(unique(nocs$dataset))) {
+    p <- p + 
+      theme(
+        legend.position = "none",
+        strip.background.x = element_blank(),
+        strip.text.x.top = element_blank(),
+        text = element_text(size = FONT_SIZE * 0.85)
+      ) +
+      xlab("")
+  }  else {
+    p <- p + theme(
+      legend.position = "bottom",
+      strip.background.x = element_blank(),
+      strip.text.x.top = element_blank(),
+      text = element_text(size = FONT_SIZE * 0.85)
+    ) +
+      xlab("Alpha")
+  }
+  
+  ggsave(
+    filename = paste0("./_900_output/figures/", ds_name, "_cs.pdf"),
+    plot = p,
+    height = 7 * 1.5,
+    width = 9.9 * 2.0,
+    units = "cm",
+    dpi = 300
+  )
+  
+}
   
 
