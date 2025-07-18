@@ -4,6 +4,8 @@ library(e1071)
 library(pROC)
 library(PRROC)
 
+set.seed(123)
+
 preprocess_data <- function(dat){
   # Convert 'method' to a factor
   dat$source <- as.factor(dat$source)
@@ -136,7 +138,7 @@ for (fname in file_names){
       )
       
       split_data <- preprocess_data(
-        dat[(dat$dataset == ds_name) & (dat$method == method), ]
+        dat[(dat$dataset == ds_name) & (dat$method == method) & (dat$model == model_name), ]
       )
       
       if (is.null(split_data)) {
