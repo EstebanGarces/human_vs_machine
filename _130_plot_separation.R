@@ -51,17 +51,17 @@ for (m in METHODS) {
   p <- ggplot(data = cut_ds, mapping = aes(x = div, y = coh)) +
     geom_raster(
       data = grid,
-      mapping = aes(x = div, y = coh, fill = probs),
+      mapping = aes(x = div, y = coh, fill = 1 - probs),
       interpolate = TRUE,
       alpha = 0.35
     ) +
     geom_point(mapping = aes(color = source), alpha = 0.65) +
     scale_fill_distiller(palette = "RdBu") +
-    scale_color_manual(values = c("#0571B0", "#CA0020")) +
+    scale_color_manual(values = c("#CA0020", "#0571B0")) +
     labs(
       x = "Diversity score",
       y = "Coherence score",
-      fill = "Prob(Human)",
+      fill = "Prob(Machine)",
       color = NULL
     ) +
     ggtitle(
