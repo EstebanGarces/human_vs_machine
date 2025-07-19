@@ -56,10 +56,12 @@ for (m in METHODS) {
       alpha = 0.35
     ) +
     geom_point(mapping = aes(color = source), alpha = 0.65) +
-    scale_fill_distiller(palette = "RdBu") +
+    scale_fill_distiller(
+      palette = "RdBu",
+      guide = guide_colorbar(barwidth = 5, barheight = 1)
+    ) +
     scale_color_manual(values = c("#CA0020", "#0571B0")) +
     labs(
-      x = "Diversity score",
       y = "Coherence score",
       fill = "Prob(Machine)",
       color = NULL
@@ -67,34 +69,35 @@ for (m in METHODS) {
     ggtitle(
       paste0(
         unname(METHODS_NAME_MAP[m]), 
-        "\nDataset: ", tools::toTitleCase(ds_name), 
-        "\nAccuracy: ", round(auc_roc, 4)
+        " | Dataset: ", tools::toTitleCase(ds_name), 
+        " | Accuracy: ", round(auc_roc, 4)
       )
     ) +
     theme_minimal()
-  if (length(plots) != 1){
+  if (length(plots) < 2){
     p <- p + theme(
       legend.position = "none",
-      legend.text = element_text(size = 8),
-      plot.title = element_text(size = 8)
-    )
+      plot.title = element_text(size = 10)
+    ) + xlab("")
   } else {
     p <- p + theme(
       legend.position = "bottom",
       legend.text = element_text(size = 8),
-      plot.title = element_text(size = 8)
-    )
+      legend.title = element_text(size = 8),
+      plot.title = element_text(size = 10)
+    ) +
+      xlab("Diversity score")
   }
   plots[[length(plots) + 1]] <- p
 }
 
-final_plot <- plots[[1]] + plots[[2]] + plots[[3]]
+final_plot <- plots[[1]] / plots[[2]] / plots[[3]]
 
 ggsave(
   filename = paste0("./_900_output/figures/class_sep.pdf"),
   plot = final_plot,
-  height = 7 * 1.5,
-  width = 9.9 * 2.0,
+  height = 9.9 * 2.0,
+  width = 7 * 1.5,
   units = "cm",
   dpi = 300
 )
